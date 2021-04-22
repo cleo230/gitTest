@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+                
+    <context:component-scan base-package="com.test.web.controller"></context:component-scan>
+         
+    <!-- contents -->           
+	<!-- <bean id="/index" class="com.test.web.controller.HomeController"/>  
+	<bean id="/notice/list" class="com.test.web.controller.notice.ListController">
+		<property name="noticeService" ref="noticeService"></property>
+	</bean>
+	<bean id="/notice/detail" class="com.test.web.controller.notice.DetailController"/>
+	-->
+	
+   	
+   	<!--  tiles  -->
+   	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+   		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+   		<property name="order" value="1"/>
+   	</bean>   	
+   	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+   		<property name="definitions" value="/WEB-INF/tiles.xml"/>
+   	</bean>
+   	
+   	<!--  controller 에서 view return 시 규칙 -->
+   	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+   		<property name="prefix" value="/WEB-INF/view/"></property>
+   		<property name="suffix" value=".jsp"></property>
+   		<property name="order" value="2"/>
+   	</bean>
+   
+   <!-- 정적 파일 (html, css, img...) 이 호출되면 /static/ 에서 확인 -->
+   <mvc:resources location="/static/" mapping="/**"></mvc:resources>
+   
+   <!-- @로 url mapping -->
+   <mvc:annotation-driven>
+	<mvc:message-converters> <!-- @ResponseBody로 String 처리할때 한글처리 -->
+		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+			<property name="supportedMediaTypes">
+				<list>
+					<value>text/html;charset=UTF-8</value>
+				</list>
+			</property>
+		</bean>
+	</mvc:message-converters>
+</mvc:annotation-driven>
+</beans>
